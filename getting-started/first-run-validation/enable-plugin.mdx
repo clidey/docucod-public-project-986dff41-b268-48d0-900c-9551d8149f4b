@@ -1,0 +1,108 @@
+---
+title: "Enabling the Plugin in Obsidian"
+description: "Instructions to activate the sample plugin from Obsidian’s Settings after installation. This page clarifies how to locate, enable, and perform an initial check to confirm the plugin is loaded properly, ensuring a functional start."
+---
+
+# Enabling the Plugin in Obsidian
+
+This guide walks you through the essential steps to activate the Sample Plugin in Obsidian after installation. Following these instructions ensures you locate, enable, and verify the plugin is fully loaded and operational within your Obsidian vault.
+
+---
+
+## 1. Open Obsidian Settings
+
+1. Launch Obsidian and open the vault where you installed the Sample Plugin.
+2. Click the **Settings** icon in the lower-left corner of the app to open the Settings pane.
+
+## 2. Navigate to the Community Plugins Section
+
+1. In the Settings sidebar, scroll down and click on **Community plugins**.
+2. If this is your first time installing community plugins, you may need to enable safe mode:
+   - Toggle **Safe mode** off to allow plugin installations.
+   - Confirm any warning dialogs to proceed.
+
+## 3. Locate the Sample Plugin
+
+1. Inside the **Community plugins** page, click on the **Installed plugins** tab.
+2. Look for **Sample Plugin** in the list. If you don’t see it:
+   - Double-check that you have copied the plugin folder correctly into your vault at `.obsidian/plugins/sample-plugin/`.
+   - Confirm that the required files (`manifest.json`, `main.js`, etc.) are present.
+
+## 4. Enable the Sample Plugin
+
+1. Find the toggle switch next to **Sample Plugin**.
+2. Click the toggle to enable the plugin.
+3. Upon enabling, Obsidian will load the plugin resources immediately.
+
+<Tip>
+Always enable one plugin at a time initially to isolate activation issues.
+</Tip>
+
+## 5. Confirm the Plugin is Active
+
+After enabling, perform these quick checks to verify the plugin loaded correctly:
+
+- **Ribbon Icon**: Look for a new icon resembling a dice on the left ribbon bar of Obsidian. Clicking this icon should produce a small popup notification saying "This is a notice!".
+
+- **Status Bar**: Check the bottom of Obsidian for a new status bar text displaying "Status Bar Text".
+
+- **Commands**: Open the command palette (`Ctrl+P` or `Cmd+P`) and search for the following commands:
+  - "Open sample modal (simple)"
+  - "Sample editor command"
+  - "Open sample modal (complex)"
+
+- **Settings Tab**: Open **Settings > Sample Plugin** tab to see the configurable setting named "Setting #1".
+
+If these items are present and functional, the plugin is enabled and running as expected.
+
+## 6. Running a Simple Test Command
+
+Try running one of the plugin commands to further verify:
+
+1. Open any note in Obsidian.
+2. Select some text.
+3. Open the command palette (`Ctrl+P` / `Cmd+P`) and choose "Sample editor command".
+4. The selected text will be replaced by "Sample Editor Command".
+
+This confirms that the plugin is integrated with the editor and responding to your interactions.
+
+<Tip>
+If the commands do not appear in the palette, try disabling and re-enabling the plugin or restarting Obsidian.
+</Tip>
+
+## Troubleshooting Common Issues
+
+<AccordionGroup title="Troubleshooting Plugin Activation">
+<Accordion title="The Sample Plugin Does Not Appear in Installed Plugins">
+- Verify the plugin folder is named exactly `sample-plugin` and placed under `.obsidian/plugins/` in your vault.
+- Confirm that required files `manifest.json` and `main.js` exist inside the plugin folder.
+- Restart Obsidian to refresh the plugin list.
+</Accordion>
+<Accordion title="Plugin Fails to Enable or Throws Errors">
+- Check Obsidian’s developer console (`Ctrl+Shift+I` / `Cmd+Option+I`) for error messages.
+- Confirm your Obsidian version meets the minimum required version specified in `manifest.json` (`0.15.0` or higher).
+- Disable other plugins temporarily to rule out conflicts.
+</Accordion>
+<Accordion title="Ribbon Icon or Commands Not Visible After Enabling">
+- Reload the Obsidian window (`Ctrl+R` / `Cmd+R`).
+- Ensure no errors occurred during plugin load using the developer console.
+- Confirm that the plugin folder’s contents are not corrupted.
+</Accordion>
+</AccordionGroup>
+
+## Summary
+
+By following these steps, you will have successfully enabled the Sample Plugin in Obsidian, confirmed its active state through UI elements and commands, and run your first interaction. This foundational validation prepares you to begin customizing and developing with the plugin.
+
+For more detailed instructions on installing or developing the plugin, refer to related documentation.
+
+---
+
+## Related Documentation
+
+- [Prerequisites & System Requirements](../setup-installation/prerequisites.md) - Verify your environment is ready
+- [Installation Methods](../setup-installation/plugin-installation.md) - How to install the plugin into Obsidian
+- [First Usage & Expected Behaviors](../first-run-validation/initial-usage.md) - What to do after enabling
+- [Troubleshooting Common Setup Issues](../first-run-validation/troubleshooting.md) - Resolve problems during activation
+
+Explore further plugin customization and development guides in the **Guides** tab once the plugin is enabled and functioning.
