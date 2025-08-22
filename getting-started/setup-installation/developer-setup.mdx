@@ -1,0 +1,188 @@
+---
+title: "Developer Setup"
+description: "A focused guide for developers eager to extend the plugin. Walks through setting up a local development environment, compiling TypeScript sources, and reloading Obsidian for iterative testing. Includes tips for using npm/yarn, development commands, and file locations."
+---
+
+# Developer Setup Guide
+
+This guide is designed for developers who want to **extend and customize the Obsidian Sample Plugin**. It covers how to set up your local development environment, compile TypeScript sources into JavaScript, and efficiently reload Obsidian for iterative testing.
+
+---
+
+## 1. Setting Up Your Development Environment
+
+### 1.1 Prerequisites
+- **NodeJS**: Ensure you have NodeJS v16 or higher installed. Verify by running:
+
+```bash
+node --version
+```
+
+- **Package Manager**: You can use either `npm` or `yarn`. Both are supported.
+
+- **Obsidian Vault**: Have an Obsidian vault ready where you'll be installing and testing your plugin.
+
+### 1.2 Clone the Plugin Repository
+
+Clone this sample plugin to your local machine to begin development.
+
+```bash
+git clone https://github.com/obsidianmd/obsidian-sample-plugin.git
+```
+
+For convenience, place the cloned repository inside your vault's plugin folder, typically:
+
+```
+<VaultFolder>/.obsidian/plugins/sample-plugin
+```
+
+### 1.3 Install Dependencies
+
+Navigate to the plugin directory and install dependencies:
+
+```bash
+cd obsidian-sample-plugin
+npm install
+```
+
+Or, if using yarn:
+
+```bash
+yarn
+```
+
+### 1.4 Key Files and Folders
+- `main.ts`: The primary TypeScript entry point where plugin logic lives.
+- `manifest.json`: Metadata for your plugin (ID, version, compatibility).
+- `styles.css`: Styling for your plugin UI elements.
+- `node_modules/`: Installed dependencies.
+
+---
+
+## 2. Compiling TypeScript Sources
+
+Compile your TypeScript source files into JavaScript that Obsidian can load.
+
+### 2.1 Development Mode - Watch Mode
+
+Use this command to compile your plugin continuously while you work. It watches for changes and recompiles automatically:
+
+```bash
+npm run dev
+```
+
+Expected behavior:
+- The `main.ts` file will be compiled into `main.js` inside the plugin folder.
+- The process runs in watch mode, tracking changes in your `.ts` files.
+
+### 2.2 Production Build
+
+For preparing a release build, which generates minified code:
+
+```bash
+npm run build
+```
+
+This ensures your plugin is optimized for release.
+
+### 2.3 Verifying Compilation
+
+Upon running the dev or build commands, confirm:
+
+- The `main.js` file appears in the plugin folder.
+- No TypeScript errors appear in the terminal.
+
+<Tip>
+If you see errors, address them before continuing. Syntax mistakes or type violations will prevent plugin loading.
+</Tip>
+
+---
+
+## 3. Loading and Testing Your Plugin in Obsidian
+
+Once your plugin is compiled, you need to **reload Obsidian** to see your changes.
+
+### 3.1 Enable the Plugin
+
+If this is your first time installing the plugin in your vault:
+
+1. Open Obsidian.
+2. Go to **Settings > Community Plugins**.
+3. Click **Enable Community Plugins** if disabled.
+4. Locate your plugin by its folder name.
+5. Enable it via the toggle switch.
+
+### 3.2 Reloading for New Changes
+After any change and recompilation:
+
+- Use the **Reload Plugins** button in Obsidian's settings under Community Plugins.
+- Alternatively, restart Obsidian completely.
+
+<Tip>
+Frequent reloading is key during development to verify your latest code is running.
+</Tip>
+
+---
+
+## 4. Development Workflow Tips
+
+- **Use Ribbon Icon and Commands to Test:**
+  - The sample plugin registers a ribbon icon and commands; interact with these for quick feature testing.
+
+- **Use Console Output:**
+  - Use `console.log()` statements inside `main.ts` to monitor plugin behavior in Obsidian's developer console (opened via `Ctrl+Shift+I` or `Cmd+Option+I`).
+
+- **Editing Settings:**
+  - The plugin includes a settings tab accessible under Obsidian's Settings > Plugin options, allowing you to test configuration changes live.
+
+- **Keep Dependencies Updated:**
+  - Occasionally run `npm update` or `yarn upgrade` to keep dependencies and Obsidian API typings fresh.
+
+---
+
+## 5. Common Pitfalls and Troubleshooting
+
+<AccordionGroup title="Common Developer Issues and Solutions">
+<Accordion title="Plugin Not Loading After Build">
+- Verify `main.js` exists and is updated.
+- Check the Obsidian console (Developer Tools) for any errors.
+- Confirm that `manifest.json` has correct `id` and `version`.
+</Accordion>
+<Accordion title="TypeScript Compilation Errors">
+- Read the error messages carefully; they indicate location and type issues.
+- Fix errors in `main.ts` before re-running `npm run dev`.
+- Make sure your TypeScript version is compatible with the codebase.
+</Accordion>
+<Accordion title="Changes Not Reflecting After Reload">
+- Ensure `npm run dev` or `npm run build` has completed successfully.
+- Perform a full Obsidian restart if simple plugin reload fails.
+- Clear any caching issues by restarting your system if persistent.
+</Accordion>
+<Accordion title="Dependency Issues">
+- Run `npm install` or `yarn` again if dependencies are missing.
+- Delete `node_modules` and `package-lock.json` then reinstall if you encounter corrupt installs.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## 6. Additional Resources
+
+- [Obsidian API Documentation](https://github.com/obsidianmd/obsidian-api): Understand the plugin API in depth.
+- [Sample Plugin Repository](https://github.com/obsidianmd/obsidian-sample-plugin): Explore the source code for examples.
+- [Plugin Development Prerequisites](../setup-installation/prerequisites): Verify environment requirements.
+- [Installation and Manual Plugin Setup](../setup-installation/plugin-installation): Step through installing your plugin manually.
+- [Live Testing and Hot Reloading Guide](../../guides/getting-started-workflows/live-testing-and-hot-reloading): Learn advanced workflows for efficient development.
+
+---
+
+This setup will empower you to efficiently develop, test, and iterate on Obsidian plugins with confidence.
+
+
+---
+
+For detailed user guides and next steps, explore the rest of the documentation.
+
+<Check>
+You now have a fully functional developer environment to customize and extend the Obsidian Sample Plugin!
+</Check>
