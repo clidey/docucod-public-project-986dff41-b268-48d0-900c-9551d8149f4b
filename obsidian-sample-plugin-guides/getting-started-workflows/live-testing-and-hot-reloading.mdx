@@ -1,0 +1,192 @@
+---
+title: "Live Testing and Hot-Reloading Your Plugin"
+description: "Master rapid development cycles by compiling your TypeScript code in watch mode and reloading Obsidian to instantly see your changes. Includes common troubleshooting tips for build and reload issues."
+---
+
+# Live Testing and Hot-Reloading Your Plugin
+
+Master rapid development cycles by compiling your TypeScript code in watch mode and reloading Obsidian to instantly see your changes. This guide walks you through setting up a seamless live testing workflow, troubleshooting build and reload issues, and best practices to ensure an efficient development experience.
+
+---
+
+## 1. Workflow Overview
+
+### What This Guide Helps You Accomplish
+You will learn how to run TypeScript compilation continuously in watch mode to automatically rebuild your plugin on code changes, and how to quickly reload Obsidian to test those changes immediately. This accelerates your plugin development, enabling rapid iteration without manual rebuilds or complex tooling.
+
+### Prerequisites
+- A local plugin development environment set up using the Obsidian Sample Plugin template.
+- Node.js (v16 or higher) installed with npm or yarn configured.
+- Your plugin repo cloned and dependencies installed (`npm i` or `yarn`).
+- Basic familiarity with running commands in a terminal.
+
+### Expected Outcome
+- Your TypeScript source code (`main.ts`) compiles automatically upon save.
+- `main.js` is rebuilt continuously in the background.
+- Reloading Obsidian immediately reflects your latest plugin changes.
+- Troubleshooting knowledge to resolve common build and reload problems.
+
+### Time Estimate
+~10–15 minutes for initial setup and testing.
+
+### Difficulty Level
+Beginner to Intermediate plugin developers.
+
+---
+
+## 2. Step-by-Step Instructions
+
+<Steps>
+<Step title="Start TypeScript Compilation in Watch Mode">
+Run the watch command to continuously compile your TypeScript source code.
+
+1. Open your terminal in your plugin project folder.
+2. Execute:
+
+```bash
+npm run dev
+```
+
+or if using yarn:
+
+```bash
+yarn dev
+```
+
+3. Observe the console logs confirming that `main.ts` is being watched and compiled into `main.js` automatically!
+
+**Expected Result:** Terminal outputs build success messages each time you save TypeScript files.
+</Step>
+
+<Step title="Load Your Plugin in Obsidian">
+1. Open Obsidian and navigate to `Settings` > `Community plugins`.
+2. Enable "Safe mode" off (if applicable).
+3. Find your plugin in the list or click "Reload plugins" if already enabled.
+4. Activate your plugin in Obsidian.
+
+**Expected Result:** Your plugin’s UI elements (ribbon icon, commands) become available, confirming it loaded successfully.
+</Step>
+
+<Step title="Make Code Changes and Reload">
+1. Edit `main.ts` to add or modify functionality.
+2. Save your changes — watch mode triggers rebuild automatically.
+3. In Obsidian, manually reload your plugin to see the changes instantly:
+   - Go to `Settings` > `Community plugins` > Find your plugin > click "Reload".
+
+**Expected Result:** Newly compiled code runs, and you see your changes reflected, such as updated behaviors or UI.
+</Step>
+
+<Step title="Automate Reloading (Optional)">
+Consider using community tools or Obsidian workflows that can reload plugins via shortcuts or commands to speed up manual reloads.
+
+**Decision Point:** If manual reloads interrupt flow, explore automation tools or write a custom Obsidian command for reload.
+</Step>
+</Steps>
+
+---
+
+## 3. Common Troubleshooting & Tips
+
+<AccordionGroup title="Build and Reload Troubleshooting">
+<Accordion title="TypeScript Does Not Compile or Watch Fails">
+- Ensure you have run `npm i` or `yarn` to install dependencies.
+- Confirm you are running the watch command with `npm run dev`.
+- Check for TypeScript errors in the terminal output and fix accordingly.
+- Verify `esbuild.config.mjs` exists and is correctly configured.
+</Accordion>
+
+<Accordion title="Plugin Does Not Reload or Show Changes in Obsidian">
+- Confirm you have reloaded your plugin via Obsidian’s plugin settings after code changes.
+- Check the console (`Ctrl+Shift+I` > Console tab) for errors related to your plugin.
+- Make sure `main.js` has been updated (check timestamp) after saving.
+- Disable and re-enable the plugin if reload fails to reflect changes.
+</Accordion>
+
+<Accordion title="Build Logs Show Warnings or Errors">
+- Warnings from esbuild often relate to external modules, which are usually safe unless critical.
+- Errors could come from syntax mistakes, missing imports, or invalid API usage.
+- Fix errors in `main.ts` and retry watch mode.
+</Accordion>
+</AccordionGroup>
+
+<Tip>
+To avoid frequent manual reloads, use the watch command in one terminal tab while keeping Obsidian open, and reload the plugin inside Obsidian itself after each save.
+</Tip>
+
+<Note>
+The `esbuild.config.mjs` script governs how your code bundles and watches for changes. It excludes core Obsidian and Electron modules to keep builds fast and lightweight.
+</Note>
+
+<Warning>
+Always verify you have the latest Node.js version (v16+) to prevent esbuild or dependency failures.
+</Warning>
+
+---
+
+## 4. Practical Example: A Typical Development Cycle
+
+1. Open terminal, run `npm run dev`. Your plugin compiles and stays watching.
+2. Switch to your code editor, modify `main.ts` (e.g., change the ribbon icon label).
+3. Save the file. Terminal prints successful rebuild messages.
+4. Switch to Obsidian, reload your plugin from settings.
+5. Test the changes immediately — you see your updated ribbon icon label.
+
+Repeat this cycle to incrementally build your plugin features quickly and confidently.
+
+---
+
+## 5. Next Steps & Related Content
+
+- [Set Up Your Plugin Development Environment](/obsidian-sample-plugin-guides/getting-started-workflows/setup-development-environment) to ensure everything is configured correctly.
+- [Customize the Sample Plugin](/obsidian-sample-plugin-guides/getting-started-workflows/customize-sample-plugin) to extend your live change capabilities.
+- [Releasing New Plugin Versions](/obsidian-sample-plugin-guides/release-publish-best-practices/releasing-new-versions) to prepare your working plugin for deployment.
+- Review [Troubleshooting Common Setup Issues](/getting-started/first-run-validation/troubleshooting) for deeper problem-solving strategies.
+
+---
+
+## Appendix: Key Configuration Files
+
+### esbuild.config.mjs Key Points
+
+```js
+import esbuild from "esbuild";
+import process from "process";
+import builtins from "builtin-modules";
+
+const prod = (process.argv[2] === "production");
+
+const context = await esbuild.context({
+    entryPoints: ["main.ts"],
+    bundle: true,
+    external: [
+        "obsidian",
+        "electron",
+        ...builtins
+    ],
+    format: "cjs",
+    target: "es2018",
+    sourcemap: prod ? false : "inline",
+    outfile: "main.js",
+    minify: prod,
+    watch: !prod,
+});
+
+if (prod) {
+    await context.rebuild();
+    process.exit(0);
+} else {
+    await context.watch();
+}
+```
+
+This script enables hot-reloading by watching source files and rebuilding on changes except when running a production build.
+
+---
+
+# Summary
+
+This guide empowers you to leverage watch mode compilation and live Obsidian plugin reloading to speed up your plugin development cycle. It covers practical setup instructions, troubleshooting steps, and example workflows to confidently iterate on your plugin code.
+
+You will complete a streamlined workflow that includes automatic TypeScript bundling and manual plugin reloading in Obsidian, supported by actionable tips and configuration insights.
+
+For comprehensive onboarding, refer to the setup and customization guides, troubleshooting documentation, and publishing instructions to take your development from local testing to community release.
