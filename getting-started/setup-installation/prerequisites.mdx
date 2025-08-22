@@ -1,0 +1,141 @@
+---
+title: "Prerequisites & System Requirements"
+description: "Learn about the essential requirements for installing and developing with the Obsidian Sample Plugin. This page details the minimum NodeJS version, platform compatibility, and basic dependencies you'll need to ensure a smooth setup."
+---
+
+# Prerequisites & System Requirements
+
+Welcome to the essential first step in developing with the Obsidian Sample Plugin. This guide ensures you have the right environment, platform, and tools so you can smoothly install, configure, and start building your plugin without unexpected issues.
+
+---
+
+## 1. NodeJS Version Requirement
+
+The Obsidian Sample Plugin development environment requires **NodeJS version 16 or higher**. This ensures compatibility with the plugin’s build process and dependencies.
+
+### How to Check Your NodeJS Version
+
+Open your command line or terminal and run:
+
+```bash
+node --version
+```
+
+If the output is below `v16.0.0`, you must update NodeJS to a supported version.
+
+---
+
+## 2. Supported Platforms
+
+You can develop and run the plugin on any system where NodeJS runs reliably. Confirm the following:
+
+- **Operating Systems:** Windows, macOS, and most Linux distributions.
+- **Filesystem:** The plugin development folder should be accessible for reading and writing files.
+- **Obsidian App Compatibility:** Ensure you run an Obsidian desktop app version at or above the plugin's declared `minAppVersion` (usually `0.15.0` or higher).
+
+> You can check your Obsidian app version in `Settings > About`.
+
+---
+
+## 3. Node Package Manager (npm) or Yarn
+
+You’ll need a package manager to install dependencies:
+
+- **npm** (bundled with NodeJS)
+- **Yarn** (an alternative package manager)
+
+To verify npm is installed, run:
+
+```bash
+npm --version
+```
+
+If not installed, installing NodeJS will provide npm automatically. Yarn is optional but supported.
+
+---
+
+## 4. Basic Dependencies
+
+The plugin's codebase depends on some Node packages:
+
+- The TypeScript toolchain for compiling `.ts` source files.
+- `esbuild` for bundling your plugin code.
+
+When you run `npm install` or `yarn` inside your plugin folder, these dependencies will be installed automatically based on the provided `package.json`.
+
+---
+
+## 5. Folder and File Setup Recommendations
+
+- Place your plugin development folder in an accessible location, ideally within the Obsidian vault under `.obsidian/plugins/your-plugin-id/` for easy testing and deployment.
+- Ensure your filesystem permissions allow full read/write access to this folder.
+
+---
+
+## 6. Environment Variables and Configurations
+
+No additional environment setups are required beyond having NodeJS and npm properly installed.
+
+---
+
+## Tips & Best Practices
+
+<Tip>
+Always verify NodeJS and Obsidian versions before you begin. Version mismatches are the most common source of build or runtime failures.
+</Tip>
+
+<Tip>
+When using Windows, prefer running the command line as Administrator or with sufficient permissions to avoid installation errors.
+</Tip>
+
+<Warning>
+Avoid mixing npm and Yarn package managers within the same project folder to prevent dependency conflicts.
+</Warning>
+
+---
+
+## Troubleshooting Common Setup Issues
+
+<Accordion title="NodeJS version too low or not found">
+If `node --version` returns an error or a version lower than 16, update NodeJS from [https://nodejs.org/](https://nodejs.org/).
+</Accordion>
+
+<Accordion title="npm install fails with permission errors">
+Check if you have the right permissions on your development folder. Consider running the terminal with elevated rights.
+</Accordion>
+
+<Accordion title="Obsidian plugin doesn’t load or crashes">
+Ensure your Obsidian app version meets the `minAppVersion` requirement stated in `manifest.json`. Update Obsidian if necessary.
+</Accordion>
+
+---
+
+## Next Steps
+
+Once your environment meets these prerequisites, continue to the **Installation Methods** guide to learn how to install and build your plugin:
+
+- [Installation Methods](/getting-started/setup-installation/plugin-installation)
+
+For help setting up your developer environment, refer to:
+
+- [Set Up Your Plugin Development Environment](/obsidian-sample-plugin-guides/getting-started-workflows/setup-development-environment)
+
+
+---
+
+## Additional Resources
+
+- Obsidian Plugin API: [https://github.com/obsidianmd/obsidian-api](https://github.com/obsidianmd/obsidian-api)
+- Obsidian Sample Plugin GitHub Repo: [https://github.com/obsidianmd/obsidian-sample-plugin](https://github.com/obsidianmd/obsidian-sample-plugin)
+- Obsidian Versioning Info in `manifest.json` and `versions.json`
+
+---
+
+Check your system now so you can set up with confidence and start developing your own powerful plugins for Obsidian.
+
+
+---
+
+<Check>
+You now have the minimum required system setup to install and develop the Obsidian Sample Plugin effectively.
+</Check>

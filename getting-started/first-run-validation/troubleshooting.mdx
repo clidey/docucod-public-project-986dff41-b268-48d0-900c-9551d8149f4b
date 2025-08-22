@@ -1,0 +1,175 @@
+---
+title: "Troubleshooting Common Setup Issues"
+description: "Provides solutions to common problems encountered during installation or activation. Includes tips for resolving dependency issues, verifying configuration files, and troubleshooting development or usage errors."
+---
+
+# Troubleshooting Common Setup Issues
+
+This guide addresses frequent problems you may encounter during the installation, activation, or initial use of the Obsidian Sample Plugin. Follow these targeted solutions to resolve dependency errors, configuration pitfalls, and development environment issues, ensuring a smooth onboarding experience.
+
+---
+
+## 1. Verifying Required Dependencies
+
+Before troubleshooting individual problems, confirm your environment meets prerequisites to avoid unnoticed setup failures:
+
+- **Node.js Version**: Ensure Node.js v16 or higher is installed. Run:
+
+  ```bash
+  node --version
+  ```
+
+  If your version is below v16, upgrade Node.js.
+
+- **Obsidian Version**: Confirm your Obsidian app meets the minimum version in `manifest.json` (`minAppVersion: 0.15.0`). Go to _Settings > About_ in Obsidian.
+
+- **Plugin Folder Structure**: Your plugin files (`main.js`, `manifest.json`, `styles.css`) must reside in your vault folder under `.obsidian/plugins/sample-plugin/`.
+
+<Tip>
+Misplaced files or incorrect folder names cause Obsidian not to recognize your plugin. Verify directory paths carefully.
+</Tip>
+
+---
+
+## 2. Common Installation Issues and Fixes
+
+### Problem: Plugin Does Not Appear in Obsidian Settings
+
+- **Cause**: Missing or malformed `manifest.json`.
+- **Fix**:
+  1. Validate `manifest.json` with a JSON linter.
+  2. Check that `id`, `name`, `version`, and `minAppVersion` fields exist with correct values.
+  3. Ensure `manifest.json` is in both your plugin root folder and in your GitHub release artifacts if publishing.
+
+### Problem: Plugin Fails to Enable or Throws Errors
+
+- **Cause**: Compiled `main.js` is missing, corrupted, or incompatible.
+- **Fix**:
+  1. Rebuild the plugin using `npm run dev` or `npm run build` in your development environment.
+  2. Confirm `main.js` is present and properly compiled in the plugin folder.
+  3. Verify no errors appear in the developer console when enabling the plugin.
+
+### Problem: Missing CSS or Styling Not Applying
+
+- **Cause**: `styles.css` may be empty or improperly linked.
+- **Fix**:
+  1. Confirm `styles.css` exists in the plugin folder.
+  2. If you customize styles, ensure valid CSS syntax.
+  3. Reload Obsidian and enable the plugin again.
+
+---
+
+## 3. Troubleshooting Development Environment Errors
+
+When working in a development setup (cloning repo and using `npm run dev`), these issues may arise:
+
+### Error: Compilation or Build Failures
+
+- **Cause**: Dependency version mismatches, missing packages, or config errors.
+- **Fix**:
+  1. Run `npm install` to ensure dependencies are installed.
+  2. Make sure your local Node.js version matches the required v16+.
+  3. Verify `esbuild.config.mjs` is unmodified and present.
+  4. Check the terminal output for specific errors and fix them accordingly.
+
+<Tip>
+Compilation warnings about unknown built-in modules usually indicate environment configuration issues and should be addressed promptly.
+</Tip>
+
+### Error: Plugin Does Not Reload During Development
+
+- **Cause**: Watch mode failure or plugin cache issues.
+- **Fix**:
+  1. Ensure you run `npm run dev` which uses esbuild watch mode.
+  2. Manually reload the plugin in Obsidian from Settings > Community Plugins > Disabled Plugins > Reload.
+  3. Restart Obsidian if live reload does not work.
+
+### Issue: Settings Not Saving or Loading
+
+- **Cause**: Problems with plugin data storage.
+- **Fix**:
+  1. Confirm your `loadSettings()` and `saveSettings()` methods are called properly. The sample plugin includes these correctly.
+  2. Check developer console for any errors when changing plugin settings.
+
+---
+
+## 4. Verifying Configuration Files
+
+Correct file contents and formatting prevent many setup issues.
+
+- **manifest.json**
+  - IDs must be lowercase with hyphens: e.g., `sample-plugin`.
+  - `version` must follow semantic versioning.
+  - `minAppVersion` must match or exceed the Obsidian app's version.
+
+- **main.ts / main.js**
+  - Verify the main plugin file exports the plugin class.
+  - Ensure no syntax or runtime errors appear on load.
+
+- **versions.json**
+  - Contains a mapping of plugin versions and minimum Obsidian app versions.
+  - Keep updated when releasing new versions.
+
+<Tip>
+Use the version bump script (`version-bump.mjs`) to automate updating version info correctly.
+</Tip>
+
+---
+
+## 5. Debugging Tips
+
+- **Use Developer Console**: Press `Ctrl+Shift+I` (or `Cmd+Option+I` on macOS) in Obsidian to open developer tools.
+  - Look for errors or warnings in the Console tab when enabling or using the plugin.
+
+- **Observe Log Outputs**: The sample plugin logs events on commands and intervals in the developer console.
+
+- **Confirm Ribbon Icon Behavior**: Clicking the dice ribbon icon should trigger a notice "This is a notice!".
+
+- **Test Commands**: Use the command palette (`Ctrl+P` or `Cmd+P`) to run sample modal commands and editor commands.
+
+<Tip>
+Regularly check console logs during development to catch potential issues early.
+</Tip>
+
+---
+
+## 6. Common Pitfalls and How to Avoid Them
+
+- **Changing File Names or IDs**: Keep plugin id and filenames consistent to avoid Obsidian not detecting the plugin.
+
+- **Missing Build Step**: Always run your build command (`npm run dev`) after editing `main.ts`.
+
+- **Incorrect Folder Placement**: Plugin must be inside the vault's `.obsidian/plugins/` folder, not just anywhere on disk.
+
+- **Ignoring Obsidian Version Compatibility**: An older Obsidian version may silently fail to load newer plugins.
+
+---
+
+## 7. When You Still Need Help
+
+- Review the full [Obsidian Sample Plugin README](https://github.com/obsidianmd/obsidian-sample-plugin/blob/main/README.md) for setup and development guidance.
+- Visit the Obsidian Community forums or Discord to seek assistance.
+- Consult the [Obsidian Plugin API documentation](https://github.com/obsidianmd/obsidian-api) for detailed plugin interfaces.
+
+---
+
+## Appendix: Quick Reference Commands
+
+```bash
+# Check Node.js version
+node --version
+
+# Install dependencies
+npm install
+
+# Start development build with watch mode
+npm run dev
+
+# Build production version
+npm run build
+
+# Validate manifest.json syntax
+cat manifest.json | jq .
+```
+
+---

@@ -1,0 +1,186 @@
+---
+title: "Set Up Your Plugin Development Environment"
+description: "Follow a step-by-step process to get your local Obsidian plugin development environment ready by cloning the sample plugin, installing dependencies, compiling with TypeScript, and integrating with your Obsidian vault. Intended for first-time plugin developers and anyone starting a new project."
+---
+
+# Set Up Your Plugin Development Environment
+
+## Workflow Overview
+
+This guide walks you through initializing your local development environment for Obsidian plugin development using the Sample Plugin as a starting point. You will clone the sample plugin repository, install necessary dependencies, compile the TypeScript source, and connect it with your Obsidian vault for testing.
+
+### Prerequisites
+
+- Node.js installed (v16 or later recommended).
+- Basic familiarity with command line interface.
+- An existing Obsidian vault to load your plugin.
+
+### Expected Outcome
+
+By following this guide, you will have a working, local Obsidian plugin development setup where your plugin code compiles automatically and integrates with your vault for live testing.
+
+### Time Estimate
+
+Approximately 15-30 minutes, depending on familiarity with Git and Node.js.
+
+### Difficulty Level
+
+Beginner to Intermediate
+
+---
+
+## Step-by-Step Instructions
+
+<Steps>
+<Step title="Clone the Sample Plugin Repository">
+Open your command line interface and clone the official Obsidian Sample Plugin repository. It is best to clone the plugin inside your Obsidian vault’s plugins folder to ease testing later.
+
+```bash
+cd /path/to/your/obsidian/vault/.obsidian/plugins
+ git clone https://github.com/obsidianmd/obsidian-sample-plugin sample-plugin
+```
+
+**Expected Result:**
+
+The sample plugin source code is downloaded into the "sample-plugin" directory inside your vault's plugin folder.
+</Step>
+
+<Step title="Install Node.js Dependencies">
+Navigate to the cloned folder and install the project’s Node.js dependencies using npm or yarn.
+
+```bash
+cd sample-plugin
+npm install
+```
+
+This installs all dependencies defined in the project’s package.json necessary to build and run the plugin.
+
+**Expected Result:**
+
+The `node_modules` folder appears with all required packages.
+</Step>
+
+<Step title="Compile Plugin Source Code">
+Compile the TypeScript source (`main.ts`) into JavaScript (`main.js`) using the build script.
+
+For active development, run the watch command to automatically compile changes:
+
+```bash
+npm run dev
+```
+
+This triggers esbuild to bundle your code and watch for file updates.
+
+**Expected Result:**
+
+`main.js` is generated and updates automatically when you change `.ts` files.
+</Step>
+
+<Step title="Load Plugin into Your Obsidian Vault">
+Start or reload Obsidian, navigate to `Settings` → `Community Plugins` → `Installed Plugins`, find "Sample Plugin," and enable it.
+
+**If you do not see the plugin:**
+
+- Verify it is located inside your vault’s `.obsidian/plugins` folder using the correct folder name.
+- Reload Obsidian.
+
+**Expected Result:**
+
+The plugin becomes active, and UI elements such as the ribbon icon and commands are available.
+</Step>
+
+<Step title="Validate Setup">
+Test your plugin’s functionality:
+
+- Click the ribbon icon in Obsidian's left sidebar and verify a notice appears.
+- Open Obsidian's command palette and look for commands like "Open sample modal (simple)".
+- Check the developer console for expected logs like 'click' or 'setInterval' messages.
+
+**Expected Result:**
+
+Plugin features respond instantly, indicating successful integration.
+</Step>
+</Steps>
+
+## Practical Tips & Best Practices
+
+- **Use `npm run dev` for fast iteration:** Running the watcher recompiles your code automatically, so you never have to stop and restart the build manually.
+- **Place your plugin folder inside your Obsidian vault:** This avoids manual copying and enables loading your development plugin instantly.
+- **Follow naming conventions:** Keep your plugin folder and manifest `id` consistent to prevent loading errors.
+- **Check Node.js version:** Run `node --version` to verify compatibility.
+
+## Common Pitfalls and Troubleshooting
+
+<AccordionGroup title="Troubleshooting Setup Issues">
+<Accordion title="Plugin Doesn’t Appear in Obsidian">
+- Ensure your cloned plugin is saved inside the exact path: `Vault/.obsidian/plugins/your-plugin-folder/`.
+- Confirm your `manifest.json` file exists and is correctly formatted.
+- Reload Obsidian to refresh the plugin list.
+</Accordion>
+
+<Accordion title="Build Errors on Compilation">
+- Verify you have Node.js v16 or above.
+- Run `npm install` again to ensure dependencies are complete.
+- Check for errors in your terminal output to identify missing packages or syntax errors.
+</Accordion>
+
+<Accordion title="Changes Not Reflected in Obsidian">
+- Confirm `npm run dev` is running and not reporting errors.
+- Reload Obsidian to clear cached versions.
+- Check the console for errors regarding plugin loading.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Example Command: Development Watch
+
+```bash
+npm run dev
+```
+
+This command uses `esbuild` to compile your TypeScript source with a watcher enabled for immediate rebuilds.
+
+## Example Folder Structure
+
+```
+VaultFolder/
+  .obsidian/
+    plugins/
+      sample-plugin/
+        main.ts
+        main.js
+        manifest.json
+        styles.css
+        package.json
+        node_modules/
+```
+
+This structure allows Obsidian to detect and load the plugin seamlessly.
+
+---
+
+## Next Steps & Related Content
+
+- [Customize the Sample Plugin](/obsidian-sample-plugin-guides/getting-started-workflows/customize-sample-plugin): Learn how to modify and extend the plugin functionality.
+- [Live Testing and Hot-Reloading Your Plugin](/obsidian-sample-plugin-guides/getting-started-workflows/live-testing-and-hot-reloading): Techniques to interactively test plugin changes.
+- [Prerequisites & System Requirements](/getting-started/setup-installation/prerequisites): Ensure your environment meets all fundamental needs.
+- [Enabling the Plugin in Obsidian](/getting-started/first-run-validation/enable-plugin): Steps to activate installed plugins.
+
+---
+
+## References
+
+- GitHub Repository: [Obsidian Sample Plugin](https://github.com/obsidianmd/obsidian-sample-plugin)
+- Official Obsidian Plugin API: [Obsidian API Documentation](https://github.com/obsidianmd/obsidian-api)
+- Plugin Development README (included in sample repo) for comprehensive commands and notes.
+
+---
+
+<Tip>
+Setting up your plugin development environment correctly from the start ensures a smooth development cycle and faster feedback when building powerful Obsidian plugins.
+</Tip>
+
+<Check>
+Regularly update Node.js and your package dependencies to maintain compatibility with Obsidian API updates.
+</Check>

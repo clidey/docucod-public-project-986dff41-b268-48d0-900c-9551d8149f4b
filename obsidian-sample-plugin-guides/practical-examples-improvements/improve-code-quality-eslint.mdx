@@ -1,0 +1,147 @@
+---
+title: "Improving Plugin Code Quality with ESLint"
+description: "Stepwise instructions for analyzing and improving your plugin's code quality using ESLint. Learn how to set up, run, and interpret linting to catch bugs and enforce consistent best practices."
+---
+
+# Improving Plugin Code Quality with ESLint
+
+Ensure your Obsidian Sample Plugin maintains high code quality, consistency, and fewer bugs by integrating ESLint into your development workflow. This guide walks you through setting up, running, and interpreting ESLint for your plugin project, empowering you to enforce coding standards and catch common mistakes before they become problems.
+
+---
+
+## 1. Why Use ESLint for Your Obsidian Plugin?
+
+ESLint is a powerful, extendable tool that analyzes TypeScript and JavaScript code to detect syntax errors, enforce style rules, and highlight potential bugs. By using ESLint in the Obsidian Sample Plugin development, you gain:
+
+- Early detection of common programming errors and anti-patterns.
+- Consistent coding style across your plugin's source code.
+- Better maintainability and readability, which eases future modifications.
+- Integration with popular editors for live linting feedback.
+
+---
+
+## 2. Prerequisites
+
+Before running ESLint, ensure:
+
+- You have installed Node.js (v16 or later).
+- Your plugin project includes the ESLint configuration file `.eslintrc` (supplied in the sample plugin).
+- Dependencies are installed in your project folder (`npm install` or `yarn`).
+
+---
+
+## 3. Setting Up ESLint for the Sample Plugin
+
+The sample plugin repository already provides a suitable `.eslintrc` configuration file, geared towards TypeScript and common best practices. Here's how to prepare:
+
+1. **Install ESLint globally** (optional but recommended for CLI use):
+
+   ```bash
+   npm install -g eslint
+   ```
+
+2. **Verify the presence of `.eslintrc`** in your plugin root directory. This file dictates the linting rules and plugin behavior.
+
+3. **Ensure your source files are accessible** in your current directory (e.g., `main.ts` or your source folder).
+
+---
+
+## 4. Running ESLint
+
+To analyze your plugin source files:
+
+1. Open a terminal at your project root.
+2. Run ESLint targeting your source files. For the sample plugin main file, execute:
+
+   ```bash
+   eslint main.ts
+   ```
+
+3. To lint the whole source directory (if present), run:
+
+   ```bash
+   eslint .\src\
+   ```
+
+4. ESLint will output a report listing warnings, errors, and suggestions for improvement, broken down by file and line numbers.
+
+---
+
+## 5. Understanding ESLint Output
+
+- **Errors**: Issues that violate the configured rules and should be fixed to avoid runtime problems or inconsistent style.
+- **Warnings**: Less critical issues that may impact readability or maintainability but won't break your plugin.
+- **Suggestions**: Optional hints to improve your codebase.
+
+Address each flagged issue by reviewing the indicated lines and applying corrective changes.
+
+---
+
+## 6. Integrating ESLint Into Your Workflow
+
+### Editor Integration
+Most modern editors like VSCode support ESLint plugins that provide real-time linting feedback as you write code. Configure your editor to automatically highlight ESLint issues for immediate correction.
+
+### Continuous Integration
+Adding ESLint checks to your CI pipeline ensures code quality checks on every commit or pull request.
+
+### Script Automation
+You can add npm scripts to your `package.json` to simplify linting commands, e.g.: 
+
+```json
+"scripts": {
+  "lint": "eslint main.ts"
+}
+```
+Run with:
+
+```bash
+npm run lint
+```
+
+---
+
+## 7. Common Pitfalls and How to Avoid Them
+
+- **Unused Variables**: ESLint flags variables declared but not referenced. Regularly clean up unused imports or variables.
+- **Disabled Rules**: Avoid disabling rules globally unless justified, as it may hide genuine issues.
+- **Ignoring Configuration File**: Always keep your `.eslintrc` updated to leverage new rules and best practices.
+
+<Tip>
+Start linting early in development to catch issues before they compound. Integrate ESLint gradually into your workflow for best results.
+</Tip>
+
+---
+
+## 8. Example ESLint Report
+
+```
+main.ts
+  34:5  error  'mySetting' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  56:10 warning  Unexpected console statement                 no-console
+
+✖ 2 problems (1 error, 1 warning)
+```
+
+This output directs you to line 34 and line 56, identifying exact problems to address.
+
+---
+
+## 9. Next Steps
+
+- Explore [Developer Setup](/getting-started/setup-installation/developer-setup) to ensure your environment is optimized for coding and linting.
+- Read [Live Testing and Hot-Reloading Your Plugin](/obsidian-sample-plugin-guides/getting-started-workflows/live-testing-and-hot-reloading) to maintain rapid testing cycles alongside linting.
+- Consult the [Sample Plugin README](README.md) in the repository for holistic guidance.
+
+---
+
+## 10. Resources
+
+- [ESLint Official Website](https://eslint.org/)
+- [TypeScript ESLint Plugin](https://typescript-eslint.io/)
+- [Obsidian Plugin API Documentation](https://github.com/obsidianmd/obsidian-api)
+- [Sample Plugin GitHub Repository](https://github.com/obsidianmd/obsidian-sample-plugin)
+
+---
+
+Maintain your plugin's quality and reliability by incorporating ESLint early and often. This proactive approach will ensure your codebase stays clean, efficient, and easy to maintain as your plugin grows.

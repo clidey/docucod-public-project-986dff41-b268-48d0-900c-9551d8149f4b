@@ -1,0 +1,233 @@
+---
+title: "Working with Notices and Custom Modals"
+description: "Hands-on guide for adding interactive UI elements—such as notification popups and custom modals—to enhance UX in your plugin. Includes implementation details, design tips, and user experience best practices."
+---
+
+# Working with Notices and Custom Modals
+
+Enhance your plugin's user experience by integrating interactive UI elements such as notification popups (Notices) and custom modal dialogs. This guide walks you through adding and handling these components effectively, offering actionable steps, design tips, and best practices to make your plugin feel intuitive and engaging.
+
+---
+
+## 1. Understanding Notices and Modals
+
+### What You Will Achieve
+
+- Display transient, unobtrusive notification popups to inform users of events or actions.
+- Create custom modal dialogs for richer user interactions and input collection.
+- Seamlessly integrate these UI elements following Obsidian’s plugin design patterns.
+
+### Prerequisites
+
+Before proceeding, ensure:
+- You have the sample plugin loaded and enabled in Obsidian.
+- Basic knowledge of TypeScript and the Obsidian plugin API.
+- Your development environment is set up to edit `main.ts` and reload the plugin.
+
+### Why Use Notices and Modals?
+
+Notices provide immediate feedback without interrupting workflow, perfect for confirmations or alerts. Modals allow richer interaction, serving as customizable UI surfaces for forms, options, or information display.
+
+---
+
+## 2. Adding a Notification Popup (Notice)
+
+The sample plugin demonstrates a simple way to show notices via a ribbon icon:
+
+<Steps>
+<Step title="Create a Ribbon Icon for Notice">
+Locate the `onload()` method in `main.ts` and identify the code segment adding the ribbon icon:
+
+```typescript
+const ribbonIconEl = this.addRibbonIcon('dice', 'Sample Plugin', (evt: MouseEvent) => {
+	new Notice('This is a notice!');
+});
+ribbonIconEl.addClass('my-plugin-ribbon-class');
+```
+
+This code adds an icon with a dice symbol on Obsidian's left ribbon. Clicking it displays the Notice.
+</Step>
+<Step title="Test the Notice Popup">
+Reload your plugin in Obsidian and click the ribbon icon.
+
+You should see a small popup near the bottom right with the message "This is a notice!" which fades automatically after a few seconds.
+
+✅ Successful if you observe this notification without any UI block.
+</Step>
+</Steps>
+
+### Customizing Notices
+
+You can customize the message text dynamically. For example, deploy notices to affirm task completion or alert errors by calling:
+
+```typescript
+new Notice('Your changes have been saved');
+new Notice('Error: unable to load file', 5000); // stays for 5 seconds
+```
+
+The second parameter is the duration in milliseconds for how long the notice is visible.
+
+---
+
+## 3. Creating and Displaying Custom Modals
+
+A modal window is a great way to guide users or collect input via a focused dialog.
+
+### How the Sample Plugin Implements a Modal
+
+The example modal `SampleModal` is defined by extending Obsidian's `Modal` class:
+
+```typescript
+class SampleModal extends Modal {
+	constructor(app: App) {
+		super(app);
+	}
+
+	onOpen() {
+		const {contentEl} = this;
+		// Add content inside the modal element
+		contentEl.setText('Woah!');
+	}
+
+	onClose() {
+		const {contentEl} = this;
+		contentEl.empty();
+	}
+}
+```
+
+The `onOpen()` method populates the modal’s content area when it appears, and `onClose()` cleans up.
+
+### Steps to Add a Custom Modal Command
+
+<Steps>
+<Step title="Add a Command to Trigger the Modal">
+
+Inside the plugin's `onload()`, notice the command registrations:
+
+```typescript
+this.addCommand({
+	id: 'open-sample-modal-simple',
+	name: 'Open sample modal (simple)',
+	callback: () => {
+		new SampleModal(this.app).open();
+	}
+});
+```
+
+This command, when invoked (via Command Palette or shortcut), opens the `SampleModal`.
+
+</Step>
+<Step title="Test Your Modal">
+Reload your plugin.
+
+Open the Command Palette (Ctrl/Cmd+P), search for "Open sample modal (simple)", and execute it.
+
+You should see a modal popup with the message 'Woah!'. Click outside or press `Esc` to close.
+
+✅ The modal appears and disappears correctly.
+</Step>
+</Steps>
+
+### Creating More Complex Modals
+
+The sample also has a command that checks the current context before opening a modal:
+
+```typescript
+this.addCommand({
+	id: 'open-sample-modal-complex',
+	name: 'Open sample modal (complex)',
+	checkCallback: (checking: boolean) => {
+		const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
+		if (markdownView) {
+			if (!checking) {
+				new SampleModal(this.app).open();
+			}
+			return true;
+		}
+	}
+});
+```
+
+This checks if a MarkdownView is active, enabling the command only when appropriate.
+
+---
+
+## 4. Best Practices and Design Tips
+
+- **Keep Notices Brief:** Use notices for short messages like confirmations or alerts. Avoid long text.
+- **Non-Blocking Interaction:** Notices should not require user dismissal; keep them transient.
+- **Modal Purpose Clarity:** Use modals for focused tasks that need user attention or input.
+- **Clean Up on Close:** Always clear contents and remove listeners in `onClose()`.
+- **Context-Awareness:** Use `checkCallback` for commands opening modals to enable them only in valid states.
+
+<Tip>
+Avoid overcrowding modals with too much content — break complex interactions into smaller steps or use multi-stage modals.
+</Tip>
+
+---
+
+## 5. Troubleshooting Common Issues
+
+<AccordionGroup title="Common Issues when working with Notices and Modals">
+<Accordion title="No Notice appears when calling new Notice()">
+Make sure your plugin is enabled and reloaded in Obsidian.
+Verify there are no uncaught errors in the console preventing commands from running.
+
+Check if the Notice is covered by other UI elements or if the duration is too short.
+</Accordion>
+<Accordion title="Modal does not open or command not visible">
+Confirm the command id is registered properly inside `onload()`.
+If using `checkCallback`, ensure the returned boolean correctly reflects current app state.
+Reload the plugin after changes.
+</Accordion>
+<Accordion title="Modal content does not display or clears immediately">
+Ensure you override `onOpen()` and populate `contentEl` properly.
+Inspect if `onClose()` is emptying content prematurely.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## 6. Extending Your Modals
+
+You can add interactive elements like buttons, inputs, or lists inside the modal content using standard DOM APIs or Obsidian’s UI utilities.
+
+Example snippet to add a button inside `onOpen()`:
+
+```typescript
+onOpen() {
+	const { contentEl } = this;
+	contentEl.createEl('h2', { text: 'Customize me!' });
+
+	const button = contentEl.createEl('button', { text: 'Click Me' });
+	button.onclick = () => {
+		new Notice('Button clicked!');
+	};
+}
+```
+
+This lets your modal interact with the user and trigger notices or other responses.
+
+---
+
+## 7. Summary
+
+By adding notices and custom modals, you create a polished, interactive plugin that communicates clearly with users and handles inputs gracefully. Use the examples in the sample plugin for quick wins, then expand with your custom logic to enrich user experiences.
+
+---
+
+## 8. Additional Resources and Next Steps
+
+- [Obsidian Plugin API Documentation](https://github.com/obsidianmd/obsidian-api): In-depth API references.
+- [Sample Plugin README](README.md): Overview of plugin features and setup.
+- [Customize the Sample Plugin](obsidian-sample-plugin-guides/getting-started-workflows/customize-sample-plugin): Learn how to add and extend UI elements.
+- [Live Testing and Hot-Reloading](obsidian-sample-plugin-guides/getting-started-workflows/live-testing-and-hot-reloading): Streamline your development workflow.
+
+---
+
+<PageLinks>
+- [Quick Feature Overview](overview/features-architecture/quick-features-summary)
+- [Plugin Architecture Diagram](overview/features-architecture/plugin-architecture-diagram)
+- [Adding and Promoting Plugin Funding Links](obsidian-sample-plugin-guides/practical-examples-improvements/funding-best-practices)
+</PageLinks>

@@ -1,0 +1,202 @@
+---
+title: "First Usage & Expected Behaviors"
+description: "Demonstrates how to use the key features once the plugin is enabled. Outlines what a successful run looks like by describing the ribbon icon, sample modal, plugin settings tab, and console logging. Guides users to verify each main feature for full validation."
+---
+
+# First Usage & Expected Behaviors
+
+This guide helps you confidently verify and use the key features of the Sample Plugin once it is enabled in Obsidian. You will learn how to identify the plugin's ribbon icon, interact with sample modals, configure settings in the plugin tab, and monitor console logs for plugin activity. Each section includes actionable verification steps and tips to ensure a smooth first experience.
+
+---
+
+## 1. Locate and Use the Ribbon Icon
+
+The ribbon icon is your primary visual indicator that the plugin is loaded and active.
+
+### Steps to Verify Ribbon Icon
+
+1. Look at the **left sidebar ribbon** in the Obsidian interface after enabling the plugin.
+2. Identify the icon shaped like a **dice** — this is the Sample Plugin's ribbon icon.
+3. Click the dice icon.
+
+### Expected Behavior
+
+- Upon clicking, a **Notice popup** appears with the message: *'This is a notice!'*.
+- The ribbon icon includes the CSS class `my-plugin-ribbon-class`, allowing it to be styled or targeted by themes.
+
+<Tip>
+The ribbon icon is both a visual confirmation your plugin is running and a shortcut to trigger plugin actions. If you don’t see the icon, check that the plugin is enabled via Obsidian’s plugin settings.
+</Tip>
+
+---
+
+## 2. Open and Interact with Sample Modals
+
+The plugin provides sample modals that demonstrate command-triggered UI interactions.
+
+### Available Commands to Trigger Modals
+
+- **Open sample modal (simple)**: Opens a modal displaying the message 'Woah!'.
+- **Open sample modal (complex)**: Opens the same modal but is only enabled when an active Markdown editor view exists.
+
+### How to Open Modals
+
+1. Open the **Command Palette** (press `Ctrl+P` / `Cmd+P`).
+2. Type **'Open sample modal (simple)'** and select the command.
+3. The modal opens with the text: *'Woah!'*.
+
+4. Repeat and try **'Open sample modal (complex)'** when a Markdown note is active.
+
+### Expected Behavior
+
+- The modal appears centered with the text 'Woah!'.
+- Closing the modal empties the content.
+
+<Tip>
+The complex modal command only appears when a Markdown note is open, demonstrating how commands can dynamically enable or disable based on context.
+</Tip>
+
+---
+
+## 3. Verify Plugin Commands in Usage
+
+Other commands complement the plugin’s interactivity.
+
+### Notable Commands
+
+- **Sample editor command**: When executed in an open Markdown editor,
+  - Logs the currently selected text to the console.
+  - Replaces the selected text with 'Sample Editor Command'.
+
+### How to Test Editor Command
+
+1. Open a Markdown file in Obsidian.
+2. Highlight some text.
+3. Open the Command Palette and run **'Sample editor command'**.
+
+### Expected Results
+
+- Console shows the text you selected before running the command.
+- The selected text in the note is replaced by 'Sample Editor Command'.
+
+<Note>
+The plugin registers a global click event and a periodic interval that log activity to the developer console. These are background features intended for demonstration and do not impact normal usage.
+</Note>
+
+---
+
+## 4. Use the Plugin Settings Tab
+
+Customize plugin behavior through provided settings.
+
+### How to Access Settings
+
+1. Go to **Settings** (gear icon) in Obsidian.
+2. Navigate to the **Community Plugins** section.
+3. Select **Sample Plugin** from the list.
+4. Click on its **Settings** tab.
+
+### Available Setting
+
+- **Setting #1**: Accepts a text value labeled as 'It's a secret'.
+
+### How to Change a Setting
+
+1. Enter a new value in the text box.
+2. Changes save automatically.
+
+<Tip>
+The setting persists between sessions and is saved in plugin data storage, so your customization remains intact on plugin reload.
+</Tip>
+
+---
+
+## 5. Monitor Console Logging for Plugin Activity
+
+The plugin performs background logging useful for debugging and verification.
+
+### What to Observe
+
+- **Click events** anywhere in the document log: `click MouseEvent`.
+- **Periodic interval logs** every 5 minutes: `setInterval`.
+
+### How to View Console Logs
+
+1. Open your system's developer tools console:
+   - In Obsidian desktop: `Ctrl+Shift+I` (Windows/Linux) or `Cmd+Option+I` (macOS).
+2. Perform clicks within the app window to see logs.
+
+<Warning>
+If you do not see any console logs:
+- Ensure the plugin is enabled.
+- Confirm you are running the plugin in an environment that supports developer tools (desktop app).
+- The logs will not appear on Obsidian mobile apps.
+</Warning>
+
+---
+
+## 6. Summary Checklist: Full Validation
+
+Use this checklist to confirm all core features work correctly.
+
+| Feature                     | Verification Step                                              | Expected Result                                  |
+|-----------------------------|----------------------------------------------------------------|-------------------------------------------------|
+| Ribbon Icon                 | See dice icon on left ribbon and click                        | Notice popup: 'This is a notice!'               |
+| Sample Modal (Simple)        | Run `Open sample modal (simple)` command                      | Modal with text 'Woah!'
+| Sample Modal (Complex)       | Run `Open sample modal (complex)` command with active Markdown note | Modal with text 'Woah!'
+| Sample Editor Command        | Select text, run command                                      | Console logs selection; editor text replaced    |
+| Plugin Setting Tab           | Change value in setting tab                                   | Value saves and persists                         |
+| Console Logging              | Observe click events & interval messages                      | Logs present in developer console                |
+
+---
+
+## Troubleshooting Tips
+
+- **Ribbon icon missing**: Confirm the plugin is enabled in Community Plugins.
+- **Commands not showing**: Ensure Obsidian is restarted after installing/enabling the plugin.
+- **Modal commands disabled**: Open a Markdown file to meet context requirements.
+- **Console logs missing**: Use Obsidian desktop and open developer tools console.
+- **Settings not saving**: Verify you have permission to write plugin data.
+
+---
+
+For detailed setup, command usage, and advanced customization, visit related documentation such as [Enabling the Plugin](../first-run-validation/enable-plugin) and [Quick Feature Overview](../../overview/features-architecture/quick-features-summary).
+
+---
+
+## Visual Workflow Diagram
+
+```mermaid
+flowchart TD
+  RI["Ribbon Icon (Dice)"] -->|Clicks| Notice["Notice: 'This is a notice!' Pop-up"]
+  CP["Command Palette"] -->|Run 'Open sample modal (simple)'| ModalSimple["Sample Modal: 'Woah!' Text"]
+  CP -->|Run 'Open sample modal (complex)' (Active Markdown View)| ModalComplex["Sample Modal: 'Woah!' Text"]
+  CP -->|Run 'Sample editor command' (With Text Selected)| LogConsole["Console Logs Selected Text"]
+  LogConsole --> EditorReplace["Replace Selection with 'Sample Editor Command'"]
+  SettingsTab["Plugin Settings Tab"] --> SaveSettings["Settings Persisted"]
+  GlobalEvents["Global Click Event and Interval"] --> Logs["Console Logs Clicks and 'setInterval' Messages"]
+
+  subgraph UserActions
+    RI
+    CP
+    SettingsTab
+  end
+  subgraph SystemResponses
+    Notice
+    ModalSimple
+    ModalComplex
+    LogConsole
+    EditorReplace
+    SaveSettings
+    Logs
+  end
+
+  RI --> Logs
+  click RI "main.ts" "line 14-46"
+  click ModalSimple "main.ts" "line 48-58"
+  click ModalComplex "main.ts" "line 38-45"
+  click SettingsTab "main.ts" "line 61-79"
+
+  classDef userAction fill:#f9f,stroke:#333,stroke-width:1px;
+  class RI,CP,SettingsTab userAction;
+```

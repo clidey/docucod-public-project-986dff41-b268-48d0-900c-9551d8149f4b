@@ -1,0 +1,102 @@
+{
+  "background": {
+    "decoration": "gradient"
+  },
+  "colors": {
+    "dark": "#1E3A8A",
+    "light": "#60A5FA",
+    "primary": "#60A5FA"
+  },
+  "favicon": "/favicon.svg",
+  "fonts": {
+    "family": "Montserrat",
+    "format": "woff2",
+    "source": "https://fonts.gstatic.com/s/googlesansflex/v5/t5sJIQcYNIWbFgDgAAzZ34auoVyXkJCOvp3SFWJbN5hF8Ju1x6sKCyp0l9sI40swNJwGpVd4AZzz0v6lJ4qFXNZhGjLvDSkV4USKMo6qQzwliVdHAy9jxTDHg_ugnAakpwGc-cxgUqDCIUI.woff2"
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "logo": {
+    "dark": "./logo/logo.svg",
+    "light": "./logo/logo.svg"
+  },
+  "name": "Obsidian Sample Plugin",
+  "navigation": {
+    "tabs": [
+      {
+        "groups": [
+          {
+            "group": "Product Introduction \u0026 Core Concepts",
+            "pages": [
+              "overview/getting-started-intro/what-is-plugin",
+              "overview/getting-started-intro/audience-usecases",
+              "overview/getting-started-intro/core-concepts-terminology"
+            ]
+          },
+          {
+            "group": "Features Overview \u0026 Architecture",
+            "pages": [
+              "overview/features-architecture/quick-features-summary",
+              "overview/features-architecture/plugin-architecture-diagram",
+              "overview/features-architecture/integration-points"
+            ]
+          }
+        ],
+        "tab": "Overview"
+      },
+      {
+        "groups": [
+          {
+            "group": "Setup and Installation",
+            "pages": [
+              "getting-started/setup-installation/prerequisites",
+              "getting-started/setup-installation/plugin-installation",
+              "getting-started/setup-installation/developer-setup"
+            ]
+          },
+          {
+            "group": "First Run \u0026 Validation",
+            "pages": [
+              "getting-started/first-run-validation/enable-plugin",
+              "getting-started/first-run-validation/initial-usage",
+              "getting-started/first-run-validation/troubleshooting"
+            ]
+          }
+        ],
+        "tab": "Getting Started"
+      },
+      {
+        "groups": [
+          {
+            "group": "Getting Started \u0026 Core Workflows",
+            "pages": [
+              "obsidian-sample-plugin-guides/getting-started-workflows/setup-development-environment",
+              "obsidian-sample-plugin-guides/getting-started-workflows/customize-sample-plugin",
+              "obsidian-sample-plugin-guides/getting-started-workflows/live-testing-and-hot-reloading"
+            ]
+          },
+          {
+            "group": "Releasing \u0026 Publishing Plugins",
+            "pages": [
+              "obsidian-sample-plugin-guides/release-publish-best-practices/releasing-new-versions",
+              "obsidian-sample-plugin-guides/release-publish-best-practices/publishing-to-community"
+            ]
+          },
+          {
+            "group": "Practical Examples \u0026 Developer Improvements",
+            "pages": [
+              "obsidian-sample-plugin-guides/practical-examples-improvements/add-notices-and-modals",
+              "obsidian-sample-plugin-guides/practical-examples-improvements/improve-code-quality-eslint",
+              "obsidian-sample-plugin-guides/practical-examples-improvements/funding-best-practices"
+            ]
+          }
+        ],
+        "tab": "Guides"
+      }
+    ]
+  },
+  "styling": {
+    "codeblocks": "dark",
+    "eyebrows": "breadcrumbs"
+  }
+}
