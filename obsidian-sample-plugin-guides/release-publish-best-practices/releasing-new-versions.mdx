@@ -1,0 +1,177 @@
+---
+title: "Releasing New Plugin Versions"
+description: "Step through the process of versioning your plugin, updating manifest and version files, creating GitHub releases, and distributing correct assets for users across different Obsidian versions."
+---
+
+# Releasing New Plugin Versions
+
+This guide walks you through the essential process of releasing a new version of your Obsidian Sample Plugin. You will learn how to properly update version numbers and compatibility information, prepare and publish your GitHub release, and distribute the right assets to ensure users across different Obsidian versions can update safely and smoothly.
+
+---
+
+## 1. Workflow Overview
+
+- **Task Description:** Prepare and publish a new release of your Obsidian Sample Plugin, including version updates and managing compatibility across Obsidian versions.
+- **Prerequisites:**
+  - Completed development and testing of your new plugin version.
+  - Updated plugin code, ready to be published.
+  - Access to your plugin's GitHub repository and release permissions.
+- **Expected Outcome:** A tagged GitHub release published with correctly updated manifest and version files, allowing users to upgrade seamlessly.
+- **Time Estimate:** Approximately 15-30 minutes.
+- **Difficulty Level:** Intermediate
+
+---
+
+## 2. Step-by-Step Instructions
+
+### Step 1: Update Your `manifest.json`
+
+Modify your `manifest.json` file to reflect the new plugin version and minimum required Obsidian version.
+
+- Open `manifest.json` in your project root.
+- Change the `version` field to your new version number (e.g., "1.0.1").
+- Update the `minAppVersion` field if your plugin requires a newer Obsidian version API.
+
+Example snippet:
+```json
+{
+  "version": "1.0.1",
+  "minAppVersion": "0.15.5"
+}
+```
+
+This file informs Obsidian about the plugin's compatibility and version.
+
+### Step 2: Update Your `versions.json`
+
+This file associates plugin versions with Obsidian minimum versions, guiding Obsidian's plugin update mechanism.
+
+- Open `versions.json`.
+- Add or update the entry for your new plugin version setting the minimum app version.
+
+Example:
+```json
+{
+  "1.0.1": "0.15.5"
+}
+```
+
+### Step 3: Bump Version Automatically (Optional)
+
+If you prefer automating version updates, use the `version-bump.mjs` script provided:
+
+- Make sure your environment variable `npm_package_version` is set to your target version.
+- Run `node version-bump.mjs` to update both `manifest.json` and `versions.json` consistently.
+
+
+### Step 4: Prepare Your Release Assets
+
+Gather the files necessary for distribution:
+
+- `manifest.json` (updated version and compatibility)
+- `main.js` (the compiled plugin code)
+- `styles.css` (if your plugin uses any styles)
+
+Ensure these files are correctly built and up to date.
+
+### Step 5: Create a New GitHub Release
+
+1. Push your latest code to your remote GitHub repository.
+2. Go to the "Releases" tab on GitHub.
+3. Click "Draft a new release".
+4. Tag the release with your exact version number (e.g., `1.0.1`) without any prefix.
+5. Fill the release title and description with relevant information about your changes.
+6. Upload the three release files (`manifest.json`, `main.js`, `styles.css`) as binary attachments.
+
+<Tip>
+Make sure the `manifest.json` file is included both at the root of your repository and as an asset in the release.
+</Tip>
+
+### Step 6: Publish and Announce
+
+- Publish the release on GitHub so it becomes publicly available.
+- Optionally, communicate the new release in your plugin's community channels or documentation.
+
+---
+
+## 3. Best Practices and Tips
+
+- **Versioning Scheme:** Follow semantic versioning (`major.minor.patch`) to communicate the magnitude of your changes clearly.
+- **Compatibility:** Always test your plugin against the minimum Obsidian version declared to avoid user issues.
+- **Release Notes:** Write clear, concise release notes highlighting new features, bug fixes, and any breaking changes.
+- **Asset Consistency:** Ensure the `manifest.json` in your repository matches exactly the one you release with.
+
+---
+
+## 4. Troubleshooting
+
+<AccordionGroup title="Common Issues When Releasing a New Version">
+<Accordion title="Users Cannot Update or See the New Version">
+Check that the `versions.json` correctly maps your new plugin version to the required minimum Obsidian version. Also, confirm your GitHub release tag matches your plugin version exactly.
+</Accordion>
+<Accordion title="Plugin Fails to Load With Updated Version">
+Verify the `minAppVersion` in your `manifest.json` matches the version of Obsidian you expect your users to be on. Incompatible API changes can cause failures.
+</Accordion>
+<Accordion title="Release Files Not Found or Corrupted">
+Ensure you upload the compiled `main.js`, `manifest.json`, and `styles.css` files directly as attachments to the GitHub release. Do not upload source files or intermediate build artifacts.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## 5. Next Steps & Related Content
+
+- After publishing, verify installation success by following the [First Usage & Expected Behaviors](../getting-started/first-run-validation/initial-usage) guide.
+- Learn how to [Publish Your Plugin to the Community](../obsidian-sample-plugin-guides/release-publish-best-practices/publishing-to-community) for wider distribution.
+- Refer back to the [Architecture Diagram](../../overview/features-architecture/plugin-architecture-diagram) for a visual of plugin component interactions.
+
+For deeper insights into plugin version management and deployment workflows, explore the [Quick Feature Overview](../../overview/features-architecture/quick-features-summary).
+
+---
+
+## Appendix: Example Version Files
+
+### manifest.json
+```json
+{
+  "id": "sample-plugin",
+  "name": "Sample Plugin",
+  "version": "1.0.1",
+  "minAppVersion": "0.15.5",
+  "description": "Demonstrates some of the capabilities of the Obsidian API.",
+  "author": "Obsidian",
+  "authorUrl": "https://obsidian.md",
+  "fundingUrl": "https://obsidian.md/pricing",
+  "isDesktopOnly": false
+}
+```
+
+### versions.json
+```json
+{
+  "1.0.0": "0.15.0",
+  "1.0.1": "0.15.5"
+}
+```
+
+Follow these steps to keep your plugin releases consistent, maintain compatibility, and provide smooth upgrades for all users across Obsidian versions.
+
+---
+
+## Frequently Asked Questions
+
+<AccordionGroup title="Version Release FAQ">
+<Accordion title="Can I skip version numbers when releasing?">
+No. Always increment the version sequentially following semantic versioning to prevent upgrade conflicts and ensure user clarity.
+</Accordion>
+<Accordion title="What happens if I set a higher `minAppVersion` than users have?">
+The plugin will not activate, and users will be prompted to upgrade Obsidian to use the plugin.
+</Accordion>
+<Accordion title="Do I need to publish all files in the release?">
+Yes. Including `manifest.json`, `main.js`, and `styles.css` ensures the plugin is fully functional and properly recognized by Obsidian.
+</Accordion>
+</AccordionGroup>
+
+---
+
+For complete developer reference, visit the [Obsidian API Documentation](https://github.com/obsidianmd/obsidian-api) and explore the [Sample Plugin README](../../README.md).
