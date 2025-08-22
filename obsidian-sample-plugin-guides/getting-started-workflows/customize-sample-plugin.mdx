@@ -1,0 +1,278 @@
+---
+title: "Customize the Sample Plugin"
+description: "Learn how to modify the sample plugin to create your own features—add ribbon icons, commands, modals, and settings pages—with clear examples and explanations. This guide directs you to the major extension and customization points."
+---
+
+# Customize the Sample Plugin
+
+Learn how to modify the Sample Plugin to add your own features—ribbon icons, commands, modals, and settings pages. This guide highlights the major extension points in the plugin source code and explains how to adapt them to create your personalized Obsidian plugin experience.
+
+---
+
+## Workflow Overview
+
+### What You'll Accomplish
+This guide will walk you through customizing the Sample Plugin's key components:
+- Adding and modifying ribbon icons
+- Creating simple and complex commands
+- Implementing modal dialogs
+- Configuring plugin settings tabs
+- Registering global events and intervals
+
+By the end, you will understand where and how to extend the Sample Plugin to fit your own unique requirements.
+
+### Prerequisites
+- A working development environment with the Sample Plugin codebase cloned
+- Basic familiarity with TypeScript and Obsidian plugin development
+- Obsidian version 0.15.0 or above installed
+
+### Expected Outcome
+You will be able to confidently add new UI elements, commands, and settings within your plugin.
+
+### Time Estimate
+Approximately 30-60 minutes for initial customization and experimentation.
+
+### Difficulty Level
+Intermediate – Requires comfort modifying TypeScript code and understanding Obsidian plugin lifecycle.
+
+---
+
+## Key Customization Points and Step-by-Step Instructions
+
+### 1. Modify and Add Ribbon Icons
+Ribbon icons appear as clickable icons in Obsidian’s left sidebar.
+
+<Steps>
+<Step title="Locate Ribbon Icon Code">
+Open the `onload` method in `main.ts`. Find the section where the ribbon icon is created using `this.addRibbonIcon`.
+</Step>
+<Step title="Change Icon and Tooltip">
+Adjust the first argument to any valid Obsidian icon name, e.g., `'star'`. Change the second argument to edit the tooltip text.
+</Step>
+<Step title="Customize Click Behavior">
+Modify the callback function passed as the third argument to customize what happens when a user clicks the icon. For example, show a different Notice or open a new modal.
+</Step>
+<Step title="Add Additional Ribbon Icons">
+Call `this.addRibbonIcon` again with new icon names, tooltips, and callbacks to add more icons.
+</Step>
+</Steps>
+
+**Expected result:** The ribbon icon(s) update to your chosen icon, display correct tooltips, and trigger your custom actions when clicked.
+
+---
+
+### 2. Create New Commands
+Commands enable users to trigger actions via the command palette or keyboard shortcuts.
+
+<Steps>
+<Step title="Find Existing Command Definitions">
+Within `onload()` in `main.ts`, find calls to `this.addCommand`.
+</Step>
+<Step title="Add a Simple Command">
+Copy one of the existing simple command objects and change the `id`, `name`, and `callback` to suit your needs. Example:
+
+```typescript
+this.addCommand({
+  id: 'my-simple-command',
+  name: 'My Simple Command',
+  callback: () => {
+    new Notice('My custom command activated!');
+  }
+});
+```
+</Step>
+<Step title="Add an Editor Command">
+Create a command with an `editorCallback` function to manipulate the editor content.
+
+Example:
+
+```typescript
+this.addCommand({
+  id: 'replace-selection',
+  name: 'Replace Selection with Text',
+  editorCallback: (editor, view) => {
+    editor.replaceSelection('Hello from my plugin!');
+  }
+});
+```
+</Step>
+<Step title="Add Complex Commands with Conditions">
+Use `checkCallback` to conditionally enable commands based on app state.
+
+Example:
+
+```typescript
+this.addCommand({
+  id: 'open-modal-if-markdown',
+  name: 'Open Modal (markdown only)',
+  checkCallback: (checking) => {
+    const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
+    if (markdownView) {
+      if (!checking) {
+        new SampleModal(this.app).open();
+      }
+      return true;
+    }
+    return false;
+  }
+});
+```
+</Step>
+</Steps>
+
+**Expected result:** Your commands appear in the command palette and behave as specified.
+
+---
+
+### 3. Customize Modal Dialogs
+Modals display custom dialogs over the Obsidian interface.
+
+<Steps>
+<Step title="Locate Modal Class">
+Find the `SampleModal` class in `main.ts`. It extends Obsidian's `Modal` class.
+</Step>
+<Step title="Edit Modal Content">
+Modify the `onOpen` method to customize what appears inside the modal.
+
+Example:
+
+```typescript
+onOpen() {
+  const {contentEl} = this;
+  contentEl.setText('Welcome to my customized modal!');
+}
+```
+</Step>
+<Step title="Add More UI Elements">
+Add new DOM elements to `contentEl` using standard DOM methods for richer UI, such as buttons or inputs.
+</Step>
+<Step title="Create New Modal Classes">
+Build additional modal classes to provide multiple custom dialogs.
+</Step>
+</Steps>
+
+**Expected result:** Modals appear with your personalized content and UI.
+
+---
+
+### 4. Extend Plugin Settings Tab
+Settings tabs add configurable options to the Obsidian settings interface under your plugin.
+
+<Steps>
+<Step title="Find Settings Tab Class">
+Locate the `SampleSettingTab` class extending `PluginSettingTab`.
+</Step>
+<Step title="Add New Setting Controls">
+In the `display()` method, add more `new Setting(containerEl)` blocks to create additional settings fields.
+
+Example:
+
+```typescript
+new Setting(containerEl)
+  .setName('Enable Feature X')
+  .setDesc('Toggle feature X on or off')
+  .addToggle(toggle => toggle
+    .setValue(this.plugin.settings.featureXEnabled)
+    .onChange(async (value) => {
+      this.plugin.settings.featureXEnabled = value;
+      await this.plugin.saveSettings();
+    })
+  );
+```
+</Step>
+<Step title="Update Settings Interface">
+Add corresponding fields in your plugin `settings` interface and update `DEFAULT_SETTINGS` accordingly.
+</Step>
+</Steps>
+
+**Expected result:** New settings fields appear under your plugin’s settings tab and save state correctly.
+
+---
+
+### 5. Register Global Events and Intervals
+You may want to listen to global events or run periodic tasks.
+
+<Steps>
+<Step title="Add a DOM Event Listener">
+Use `this.registerDomEvent` in `onload()` to listen for global events, such as click.
+
+Example:
+
+```typescript
+this.registerDomEvent(document, 'click', (evt) => {
+  console.log('Document clicked', evt);
+});
+```
+</Step>
+<Step title="Set Up Intervals">
+Use `this.registerInterval` to automatically clear intervals when the plugin unloads.
+
+Example:
+
+```typescript
+this.registerInterval(window.setInterval(() => {
+  console.log('Interval running');
+}, 5 * 60 * 1000));
+```
+</Step>
+</Steps>
+
+**Expected result:** Your event handlers and intervals are active while the plugin is enabled and cleaned up automatically.
+
+---
+
+## Practical Tips and Best Practices
+
+- Rename classes and interface names (`MyPlugin`, `MyPluginSettings`) to something unique to avoid conflicts.
+- Use clear `id` and `name` values for commands as these appear in the Obsidian command palette.
+- Gracefully handle plugin disabling/unloading, if adding any persistent listeners or resources beyond defaults.
+- Test modals and commands in different Obsidian views to ensure consistent behavior.
+- Keep settings interface simple and user-friendly to encourage user adoption.
+
+---
+
+## Troubleshooting Common Issues
+
+<AccordionGroup title="Troubleshooting Customization Issues">
+<Accordion title="Ribbon icon not appearing or clickable">
+- Ensure the icon name used in `addRibbonIcon` is a valid Obsidian icon.
+- Verify your plugin is enabled in Obsidian's settings.
+- Check the browser console or developer tools for errors during plugin load.
+</Accordion>
+<Accordion title="Commands not showing up in the command palette">
+- Confirm that all `id` values are unique.
+- For commands using `checkCallback`, make sure the return value is correct (true to show, false to hide).
+- Reload Obsidian after code changes to refresh the plugin.
+</Accordion>
+<Accordion title="Settings not saving or loading correctly">
+- Verify the settings interface updates values on change events.
+- Check `loadSettings` and `saveSettings` are called appropriately.
+- Look for JSON parsing errors in plugin storage.
+</Accordion>
+<Accordion title="Modal content not displaying as expected">
+- Use DOM inspection tools to verify your modal's content element.
+- Ensure `onOpen()` modifies `contentEl` properly and that `onClose()` cleans up.
+</Accordion>
+</AccordionGroup>
+
+---
+
+## Next Steps & Related Guides
+
+- [Set Up Your Plugin Development Environment](../getting-started-workflows/setup-development-environment) to prepare your tools.
+- [Live Testing and Hot-Reloading Your Plugin](../getting-started-workflows/live-testing-and-hot-reloading) to streamline development cycles.
+- [Releasing New Plugin Versions](../release-publish-best-practices/releasing-new-versions) when ready to publish your work.
+- Explore the [Core Concepts and Terminology](../../overview/getting-started-intro/core-concepts-terminology) for deeper understanding of Obsidian plugin components.
+
+---
+
+For code reference, see the official Sample Plugin repo on GitHub:
+- [`manifest.json`](https://github.com/obsidianmd/obsidian-sample-plugin/blob/main/manifest.json)
+- [`main.ts`](https://github.com/obsidianmd/obsidian-sample-plugin/blob/main/main.ts)
+
+---
+
+## Summary
+This guide walked you through how to customize the Obsidian Sample Plugin's ribbon icons, commands, modals, settings, and global event handlers. With these customization points, you can create your own tailored plugin features, empower your users with new capabilities, and build a rich Obsidian plugin experience.
+
+Keep experimenting with the sample code, integrate your own ideas, and leverage related documentation for a smooth development journey.
