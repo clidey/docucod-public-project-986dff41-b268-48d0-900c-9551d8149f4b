@@ -1,0 +1,153 @@
+---
+title: "Publishing Your Plugin to the Community"
+description: "A practical walkthrough for submitting your plugin to the Obsidian community list, meeting guidelines, and maintaining discoverability, including best practices to maximize your audience."
+---
+
+# Publishing Your Plugin to the Community
+
+A step-by-step practical guide to successfully submit your Obsidian plugin to the official community plugin list. This walkthrough helps you navigate the submission process, meet the community guidelines, and maintain your plugin's discoverability and audience engagement.
+
+---
+
+## 1. Understanding the Submission Workflow
+
+### What You'll Achieve
+- Successfully submit your plugin to the Obsidian community plugin list
+- Ensure your plugin meets the official guidelines
+- Optimize your plugin's visibility and user adoption
+
+### Prerequisites
+- A fully functional plugin ready for initial release
+- A GitHub repository hosting your plugin's source and release assets
+- A prepared `manifest.json` file with correct metadata
+- A `README.md` file in the repo root
+- Familiarity with GitHub pull requests
+
+### Time and Complexity
+- Estimated time: 30 minutes to 1 hour
+- Difficulty: Intermediate (requires GitHub and Obsidian plugin development knowledge)
+
+---
+
+## 2. Step-by-Step Guide to Publishing
+
+<Steps>
+<Step title="Check Plugin Guidelines">
+Ensure your plugin adheres to the official [Obsidian plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines). These cover compliance, safety, and functionality standards required for acceptance.
+
+- Review guidelines carefully to avoid rejection
+- Focus on security and privacy best practices
+- Confirm compatibility with stated minimum app version
+</Step>
+
+<Step title="Publish Your Initial Version">
+Before submission:
+
+- Create and push an initial release on GitHub
+  - Tag the release with your version number (e.g., `1.0.0`)
+  - Upload the compiled `main.js`, `manifest.json`, and optional `styles.css` files to the release assets
+- Validate your `manifest.json` includes fields like `id`, `name`, `version`, `minAppVersion`, `description`, and optionally `fundingUrl`
+
+This step ensures that your plugin is ready for distribution.
+</Step>
+
+<Step title="Prepare Your Repository">
+- Place a clear and informative `README.md` in the root of your repository
+- Make sure the repository is public and accessible
+- Verify that `manifest.json` is up to date with your release version and metadata
+- Check that the repository follows good structure for easy user and maintainer navigation
+</Step>
+
+<Step title="Submit a Pull Request to the Obsidian Releases Repository">
+- Go to [https://github.com/obsidianmd/obsidian-releases](https://github.com/obsidianmd/obsidian-releases)
+- Fork the repo to your GitHub account
+- Add your plugin's `manifest.json` details to the appropriate plugins list file
+- Submit a pull request (PR) describing:
+  - Your plugin's purpose
+  - Version details
+  - Main features
+
+Your PR is the official request to have your plugin included in the community list.
+</Step>
+
+<Step title="Respond to Review Feedback">
+- Maintain responsiveness to any feedback or requested changes from repository maintainers
+- Update your PR and repository as needed to meet standards
+- Avoid delays by carefully responding and testing changes
+</Step>
+
+<Step title="Celebrate Your Plugin's Inclusion">
+Once your PR is merged:
+
+- Your plugin will be listed in Obsidian's community plugins
+- Users will be able to discover and install it directly within Obsidian
+- Monitor feedback and iterate on improvements
+</Step>
+
+</Steps>
+
+---
+
+## 3. Best Practices to Maximize Audience and Discoverability
+
+- **Clear and Concise Description:** Write a compelling description in your `manifest.json` and `README.md` that highlights your plugin's value.
+- **Use Proper Semantic Versioning:** Make meaningful version bumps that reflect changes (major, minor, patch).
+- **Keep Documentation Updated:** Provide usage instructions and example scenarios for users inside your repo.
+- **Include Funding Links:** Use the `fundingUrl` field to enable supporters to contribute via platforms like Buy Me a Coffee or Patreon.
+
+```json
+{
+  "fundingUrl": {
+    "Buy Me a Coffee": "https://buymeacoffee.com/yourname",
+    "GitHub Sponsor": "https://github.com/sponsors/yourname"
+  }
+}
+```
+- **Engage with the Community:** Monitor plugin forum posts and GitHub issues to respond promptly.
+
+---
+
+## 4. Common Pitfalls and Troubleshooting
+
+<AccordionGroup title="Troubleshooting Common Issues">
+<Accordion title="Manifest Validation Errors">
+- Ensure your `manifest.json` keys and values adhere to JSON and schema rules.
+- Check for missing required fields like `id`, `version`, or malformed URLs.
+- Use JSON validators to catch syntax problems.
+</Accordion>
+
+<Accordion title="Release Asset Problems">
+- Confirm you uploaded all required files (`main.js`, `manifest.json` at minimum) in your GitHub release
+- Use binary attachments for non-text files
+- Verify filename casing matches exactly
+</Accordion>
+
+<Accordion title="Pull Request Rejection">
+- Carefully review feedback from maintainers
+- Check guideline compliance again
+- Correct any metadata or package inconsistencies
+</Accordion>
+
+<Accordion title="Discoverability Issues After Approval">
+- Double-check your plugin description and keywords
+- Keep your plugin well documented and updated
+- Consider adding a video demo or screenshots to your README
+</Accordion>
+</AccordionGroup>
+
+---
+
+## 5. Useful References and Next Steps
+
+- [Official Community Plugin Submission Guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines)
+- [Sample Plugin Repository on GitHub](https://github.com/obsidianmd/obsidian-sample-plugin)
+- [Manifest.json Schema Documentation](https://github.com/obsidianmd/obsidian-api/blob/master/docs/manifest.md)
+- [Releasing New Plugin Versions Guide](https://obsidian.md/obsidian-sample-plugin-guides/release-publish-best-practices/releasing-new-versions)
+
+Continue your journey by exploring related guides on version releasing workflows and promoting your plugin to gain more users.
+
+---
+
+<Note>
+Submitting your plugin to the Obsidian community list is your gateway to reaching thousands of users. Follow this guide closely, keep your repository polished, and engage actively with community feedback to build trust and popularity.
+</Note>
